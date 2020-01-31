@@ -1,0 +1,13 @@
+How to use:
+
+1-			Copy all your file in your_printf folder
+2-			in main_all.c, change your .h path in the first include
+3-			Use "cd your_printf && make && mv libftprintf.a .. && cd .. && gcc -L. -lftprintf main_all.c gnl/*.c" to compile
+4-			Use "./a.out [sdiuxXp] [0,1]" to exec.
+				[sdiuxXp] =	type to test
+				[0, 1, 2] =	0 only display failed tests
+							1 will both display failed and succeed tests
+							2 same as 1 but detail for succeed tests
+				No flag will test all type, with modified display 1.
+
+			You MUST put a [0, 1, 2] flag, if you put a [sdiuxXp] flag.
