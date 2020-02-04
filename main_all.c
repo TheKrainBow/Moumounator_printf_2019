@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/04 06:25:05 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/03 05:42:26 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
-#include <libc.h>
 
 static char	*main_strchr(const char *s, int c)
 {
@@ -71,7 +70,7 @@ int		ft_comparelines(char *s1, char *s2)
 	return (1);
 }
 
-int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int ret_ft, int toggleok)
+int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int ret_ft, int toggleok, int (*test)[4])
 {
 	int		ret_val = 0;
 	char	*line_user = NULL;
@@ -97,7 +96,10 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 		printf("\033[0m");
 		if (toggleok == 1)
 			printf("\n|\tft_printf: {%s} returned %d\n|\t   printf: {%s} returned %d\n", line_user, ret_ft - 3, line_printf, ret_pf - 3);
+		(*test)[0] = (*test)[0] + 1;
 	}
+	else
+		(*test)[0] = (*test)[0] + 1;
 	dup2(fd_user, 1);
 	free(line_printf);
 	free(line_user);
@@ -110,7 +112,7 @@ int		ft_checkarg(char *str)
 		return (0);
 	while (*str)
 	{
-		if (main_strchr("scduixXp%", *str))
+		if (main_strchr("scduixXp", *str))
 			return (0);
 		str++;
 	}
@@ -121,6 +123,8 @@ int main(int ac, char **av)
 {
 	int		ret_pf = 0;
 	int		ret_ft = 0;
+	int		ok;
+	int		test[4] = {0, 0, 0, 0};
 	int		i_arg;
 	int		i_width;
 	int		i_accu;
@@ -190,29 +194,40 @@ int main(int ac, char **av)
 		0
 	};
 	int		arg_w[3] = {-15, 0, 15};
-	int		arg_a[5] = {-20, -6, 0, 6, 20};
+	int		arg_a[3] = {-6, 0, 6};
 
 	char	*full_arg;
 	char	*display;
-	int		display_toggle;
+	char	*display_toggle;
 	int		i_type = 0;
 	int		choosedtype;
 	int		i_av = 0;
-	int		test_variable;
 
 	choosedtype = 0;
-	display_toggle = 1;
+	printf(BOLDWHITE);
 	if (ac > 1)
 	{
 		if (!av[1] || !av[1][0] || ft_checkarg(av[1]))
 		{
-			printf("Error arg. Use only following types:\ncsduixXp%%\n");
-			return (0);
+			if (!main_strchr("012", av[1][0]))
+			{
+				printf("Error arg. Use only following types:\ncsduixXp\n");
+				return (0);
+			}
+			else if (ac == 2)
+				display_toggle[0] = av[1][0];
 		}
-		choosedtype = 1;
-		if (ac == 3)
-			display_toggle = 0;
+		else
+		{
+			if (ac == 2)
+				display_toggle = "0";
+			else if (ac == 3)
+				display_toggle[0] = av[2][0];
+			choosedtype = 1;
+		}
 	}
+	else
+		display_toggle = "0";
 	while ((choosedtype == 0 && type[i_type]) || (choosedtype == 1 && av[1][i_av]))
 	{
 		if (choosedtype == 1)
@@ -221,20 +236,16 @@ int main(int ac, char **av)
 			while (type[i_type] && type[i_type][0] != av[1][i_av])
 				i_type++;
 		}
-		display = ft_strjoin("Conversion ", type[i_type]);
-		dup2(fd_stdout, 1);printf("%.*s:\n", (int)strlen(display) - 2, display);dup2(fd_user, 1);
+		display = ft_strjoin("\nConversion ", type[i_type]);
+		ok = 1;
+		dup2(fd_stdout, 1);printf("%.*s:", (int)strlen(display) - 2, display);dup2(fd_user, 1);
 		i_string = -1;
 		while (++i_string != 3)
 		{
 			i_arg = -1;
 			while (arg[++i_arg])
 			{
-				while ((arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'c') || (arg[i_arg] && main_strchr(arg[i_arg], '0') && type[i_type][0] == 'p') || (arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'p'))
-					i_arg++;
-				if (!arg[i_arg])
-					break;
 				full_arg = ft_strjoin(arg[i_arg], type[i_type]);
-				test_variable = ft_testarg(full_arg);
 				if (ft_testarg(full_arg) == -1)
 				{
 					fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
@@ -244,16 +255,19 @@ int main(int ac, char **av)
 					system(": > output_printf.txt");
 					ret_pf = dprintf(fd_printf, full_arg, !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
 					ret_ft = ft_printf(full_arg, !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+					test[1]++;
 					close(fd_user);
 					fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 					close(fd_printf);
-					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);dup2(fd_user, 1);
-					if (display_toggle != 0 || ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, av[2][0] - '0') || main_strchr("12", av[2][0]))
+					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+					if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 					{
+						ok = 0;
 						dup2(fd_stdout, 1);
 						!main_strchr("dcuixX", type[i_type][0]) ?
-						printf("-->\t\"%.*s\", |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
-						printf("-->\t\"%.*s\", %d\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string]);
+						printf("-->\t%.*s, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
+						printf("-->\t%.*s, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
+						;
 						dup2(fd_user, 1);
 					}
 					close(fd_user);
@@ -272,16 +286,18 @@ int main(int ac, char **av)
 						system(": > output_printf.txt");
 						ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
 						ret_ft = ft_printf(full_arg, arg_w[i_width], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+						test[1]++;
 						close(fd_user);
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						close(fd_printf);
 						fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-						if (display_toggle != 0 || ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, av[2][0] - '0') || main_strchr("12", av[2][0]))
+						if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 						{
+							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t\"%.*s\", %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
-							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
+							printf("-->\t%.*s, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
+							printf("-->\t%.*s, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -292,7 +308,7 @@ int main(int ac, char **av)
 				else if (!(ft_testarg(full_arg)%4) && (ft_testarg(full_arg)%3))
 				{
 					i_accu = -1;
-					while (++i_accu < 5)
+					while (++i_accu < 3)
 					{
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						system(": > output_user.txt");
@@ -301,16 +317,18 @@ int main(int ac, char **av)
 						system(": > output_printf.txt");
 						ret_pf = dprintf(fd_printf, full_arg, arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
 						ret_ft = ft_printf(full_arg, arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+						test[1]++;
 						close(fd_user);
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						close(fd_printf);
 						fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-						if (display_toggle != 0 || ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, av[2][0] - '0') || main_strchr("12", av[2][0]))
+						if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 						{
+							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t\"%.*s\", %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
-							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
+							printf("-->\t%.*s, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
+							printf("-->\t%.*s, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -324,7 +342,7 @@ int main(int ac, char **av)
 					while (++i_width < 3)
 					{
 						i_accu = -1;
-						while (++i_accu < 5)
+						while (++i_accu < 3)
 						{
 							fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 							system(": > output_user.txt");
@@ -333,16 +351,18 @@ int main(int ac, char **av)
 							system(": > output_printf.txt");
 							ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
 							ret_ft = ft_printf(full_arg, arg_w[i_width], arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+							test[1]++;
 							close(fd_user);
 							fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 							close(fd_printf);
 							fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-							if (display_toggle != 0 || ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, av[2][0] - '0') || main_strchr("12", av[2][0]))
+							if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 							{
+								ok = 0;
 								dup2(fd_stdout, 1);
 								!main_strchr("dcuixX", type[i_type][0]) ?
-								printf("-->\t\"%.*s\", %d, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
-								printf("-->\t\"%.*s\", %d, %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
+								printf("-->\t%.*s, %d, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
+								printf("-->\t%.*s, %d, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
 								dup2(fd_user, 1);
 							}
 							close(fd_user);
@@ -354,7 +374,33 @@ int main(int ac, char **av)
 				free(full_arg);
 			}
 		}
-	i_type++;
-	i_av++;
+		if (test[0] == test[1])
+		{
+			dup2(fd_stdout, 1);
+			printf( BOLDGREEN "\t%d/%d test passed" BOLDWHITE, test[0], test[1]);
+			dup2(fd_user, 1);
+		}
+		else
+		{
+			dup2(fd_stdout, 1);
+			printf( BOLDRED "\t%d/%d test passed" BOLDWHITE, test[0], test[1]);
+			dup2(fd_user, 1);
+		}
+		test[2] += test[0];
+		test[3] += test[1];
+		test[0] = 0;
+		test[1] = 0;
+		i_type++;
+		i_av++;
 	}
+	dup2(fd_stdout, 1);
+	printf("\n\nFinal score:");
+	if (test[2] == test[3])
+	{
+		printf( BOLDGREEN "\t%d/%d test passed" BOLDWHITE, test[2], test[3]);
+		printf("\nSuccess to all test doesn't mean your printf is good\n");
+	}
+	else
+		printf( BOLDRED "\t%d/%d test passed" BOLDWHITE, test[2], test[3]);
+	dup2(fd_user, 1);
 }
