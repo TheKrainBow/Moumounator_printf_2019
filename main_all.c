@@ -6,17 +6,18 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/01/29 08:18:18 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/04 06:25:05 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "your_printf/srcs/printf.h"
+#include "your_printf/srcs/ft_printf.h"
 #include "gnl/get_next_line.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <libc.h>
 
 static char	*main_strchr(const char *s, int c)
 {
@@ -109,7 +110,7 @@ int		ft_checkarg(char *str)
 		return (0);
 	while (*str)
 	{
-		if (main_strchr("scduixXp", *str))
+		if (main_strchr("scduixXp%", *str))
 			return (0);
 		str++;
 	}
@@ -163,7 +164,7 @@ int main(int ac, char **av)
 		"|%-0*.*",
 		NULL
 	};
-	char	*type[9] =
+	char	*type[10] =
 	{
 		"c|\n",
 		"s|\n",
@@ -173,6 +174,7 @@ int main(int ac, char **av)
 		"x|\n",
 		"X|\n",
 		"p|\n",
+		"%|\n",
 		NULL
 	};
 	char	*strings[3] =
@@ -188,7 +190,7 @@ int main(int ac, char **av)
 		0
 	};
 	int		arg_w[3] = {-15, 0, 15};
-	int		arg_a[3] = {-6, 0, 6};
+	int		arg_a[5] = {-20, -6, 0, 6, 20};
 
 	char	*full_arg;
 	char	*display;
@@ -196,6 +198,7 @@ int main(int ac, char **av)
 	int		i_type = 0;
 	int		choosedtype;
 	int		i_av = 0;
+	int		test_variable;
 
 	choosedtype = 0;
 	display_toggle = 1;
@@ -203,7 +206,7 @@ int main(int ac, char **av)
 	{
 		if (!av[1] || !av[1][0] || ft_checkarg(av[1]))
 		{
-			printf("Error arg. Use only following types:\ncsduixXp\n");
+			printf("Error arg. Use only following types:\ncsduixXp%%\n");
 			return (0);
 		}
 		choosedtype = 1;
@@ -226,7 +229,12 @@ int main(int ac, char **av)
 			i_arg = -1;
 			while (arg[++i_arg])
 			{
+				while ((arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'c') || (arg[i_arg] && main_strchr(arg[i_arg], '0') && type[i_type][0] == 'p') || (arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'p'))
+					i_arg++;
+				if (!arg[i_arg])
+					break;
 				full_arg = ft_strjoin(arg[i_arg], type[i_type]);
+				test_variable = ft_testarg(full_arg);
 				if (ft_testarg(full_arg) == -1)
 				{
 					fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
@@ -239,14 +247,13 @@ int main(int ac, char **av)
 					close(fd_user);
 					fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 					close(fd_printf);
-					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);dup2(fd_user, 1);
 					if (display_toggle != 0 || ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, av[2][0] - '0') || main_strchr("12", av[2][0]))
 					{
 						dup2(fd_stdout, 1);
 						!main_strchr("dcuixX", type[i_type][0]) ?
-						printf("-->\t%.*s, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
-						printf("-->\t%.*s, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
-						;
+						printf("-->\t\"%.*s\", |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
+						printf("-->\t\"%.*s\", %d\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string]);
 						dup2(fd_user, 1);
 					}
 					close(fd_user);
@@ -273,8 +280,8 @@ int main(int ac, char **av)
 						{
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t%.*s, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
-							printf("-->\t%.*s, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
+							printf("-->\t\"%.*s\", %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
+							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -285,7 +292,7 @@ int main(int ac, char **av)
 				else if (!(ft_testarg(full_arg)%4) && (ft_testarg(full_arg)%3))
 				{
 					i_accu = -1;
-					while (++i_accu < 3)
+					while (++i_accu < 5)
 					{
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						system(": > output_user.txt");
@@ -302,8 +309,8 @@ int main(int ac, char **av)
 						{
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t%.*s, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
-							printf("-->\t%.*s, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
+							printf("-->\t\"%.*s\", %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
+							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -317,7 +324,7 @@ int main(int ac, char **av)
 					while (++i_width < 3)
 					{
 						i_accu = -1;
-						while (++i_accu < 3)
+						while (++i_accu < 5)
 						{
 							fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 							system(": > output_user.txt");
@@ -334,8 +341,8 @@ int main(int ac, char **av)
 							{
 								dup2(fd_stdout, 1);
 								!main_strchr("dcuixX", type[i_type][0]) ?
-								printf("-->\t%.*s, %d, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
-								printf("-->\t%.*s, %d, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
+								printf("-->\t\"%.*s\", %d, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
+								printf("-->\t\"%.*s\", %d, %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
 								dup2(fd_user, 1);
 							}
 							close(fd_user);
