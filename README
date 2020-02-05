@@ -10,3 +10,16 @@ How to use:
 				No flag will test all type, with modified display 1.
 
 			You MUST put a [0, 1, 2] flag, if you put a [sdiuxXp] flag.
+
+			You can use the flag '-bonus' to toggle on bonus. It's must be the first arg after your path.
+			./Moumounator_printf.sh <../path_to_your_printf> -bonus (cspduixX%nfeg) (012) (LlHh) (-bflag)
+				(LlHh) = 	add some conversion test. No conversion will be tested if you don't specifie some
+							H means hh and L means ll.
+				(-bflag) = 	add bonus flag to the tester ('#, ' ', '+')
+
+
+			Go check flag_by_type.txt to see which types are tested with which flags.
+			If you want to test all flags with all tests, change:
+			#define ALLTEST 0
+			to
+			#define ALLTEST 1

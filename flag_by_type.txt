@@ -1,0 +1,39 @@
+This .txt show which flags are used by which type in printf. This tester only test the one's checked.
+L = ll
+H = hh
+. = accuracity
+
+   |.|0|-|#| +|HhL|l|
+c  | | |✓| |  |   |✓|
+s  |✓| |✓| |  |   |✓|
+di |✓|✓|✓| |✓✓| ✓ |✓|
+u  |✓|✓|✓| |  | ✓ |✓|
+Xx |✓|✓|✓|✓|  | ✓ |✓|
+p  | | |✓| |  |   | |
+%  |✓|✓|✓|✓|✓✓| ✓ |✓|
+feg|✓|✓|✓|✓|✓✓|   |✓|
+n  | | |✓| |  | ✓ |✓|
+
+c -> -l
+s -> .-l
+d -> .0-+ HhLl
+u -> .0-HhLl
+i -> .0-+ HhLl
+x -> .0-#HhLl
+p -> -
+% -> .0-+# HhLl
+f -> .0-+# l
+e -> .0-+# l
+g -> .0-+# l
+n -> -HhLl
+
+. -> sduix%fegh
+0 -> duix%fegh
+- -> csduixp%feghn
++ -> di%fegh
+# -> x%fegh
+  -> di%fegh
+H -> duix%n
+h -> duix%n
+L -> duix%n
+l -> csduix%feghn

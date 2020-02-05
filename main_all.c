@@ -6,9 +6,11 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/05 03:01:31 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/05 09:29:51 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#define ALLTEST 1
 
 #include "../test1234printf/srcs/ft_printf.h"
 #include "gnl/get_next_line.h"
@@ -115,6 +117,30 @@ int		ft_checkarg(char *str)
 		if (main_strchr("scduixXp%", *str))
 			return (0);
 		str++;
+	}
+	return (1);
+}
+int			ft_check_flags_arg(char *str, char c)
+{
+	if (c == 'c' || c == 'p')
+	{
+		if (main_strchr(str, '0') || main_strchr(str, '.') || main_strchr(str, '+') || main_strchr(str, '#') || main_strchr(str, ' '))
+			return (0);
+	}
+	else if (c == 's')
+	{
+		if (main_strchr(str, '0') || main_strchr(str, '+') || main_strchr(str, '#') || main_strchr(str, ' '))
+			return (0);
+	}
+	else if (c == 'd' || c == 'i')
+	{
+		if (main_strchr(str, '#'))
+			return (0);
+	}
+	else if (c == 'x' || c == 'X' || c == 'u')
+	{
+		if (main_strchr(str, '0') || main_strchr(str, '#'))
+			return (0);
 	}
 	return (1);
 }
@@ -307,7 +333,7 @@ int main(int ac, char **av)
 			i_arg = -1;
 			while (arg[++i_arg])
 			{
-				while ((arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'c') || (arg[i_arg] && main_strchr(arg[i_arg], '0') && type[i_type][0] == 'p') || (arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'p'))
+				while (arg[i_arg] && !ft_check_flags_arg(arg[i_arg], type[i_type][0]) && !ALLTEST)
 					i_arg++;
 				if (!arg[i_arg])
 					break;
@@ -339,8 +365,8 @@ int main(int ac, char **av)
 						ok = 0;
 						dup2(fd_stdout, 1);
 						!main_strchr("dcuixX", type[i_type][0]) ?
-						printf("-->\t\"%.*s\", %s\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
-						printf("-->\t\"%.*s\", %d\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
+						printf("-->\t\"%.*s\\n\", %s\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
+						printf("-->\t\"%.*s\\n\", %d\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
 						;
 						dup2(fd_user, 1);
 					}
@@ -378,8 +404,8 @@ int main(int ac, char **av)
 							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t\"%.*s\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
-							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
+							printf("-->\t\"%.*s\\n\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
+							printf("-->\t\"%.*s\\n\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -417,8 +443,8 @@ int main(int ac, char **av)
 							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t\"%.*s\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
-							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
+							printf("-->\t\"%.*s\\n\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
+							printf("-->\t\"%.*s\\n\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -459,8 +485,8 @@ int main(int ac, char **av)
 								ok = 0;
 								dup2(fd_stdout, 1);
 								!main_strchr("dcuixX", type[i_type][0]) ?
-								printf("-->\t\"%.*s\", %d, %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
-								printf("-->\t\"%.*s\", %d, %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
+								printf("-->\t\"%.*s\\n\", %d, %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
+								printf("-->\t\"%.*s\\n\", %d, %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
 								dup2(fd_user, 1);
 							}
 							close(fd_user);
