@@ -21,28 +21,31 @@ echo ${ECHO_FLAG} "\t\t\t" | tr -d '\n'; for i in {16..22} {21..20} ; do echo ${
 for i in {20..21} {22..16} ; do echo ${ECHO_FLAG} "${COLOR_FLAG}[38;5;${i}m₪${COLOR_FLAG}[0m" | tr -d '\n'; done ; echo
 echo ${ECHO_FLAG} "\t\t\t" | tr -d '\n'; for i in {16..22} {21..16} {15..22} {21..16} ; do echo ${ECHO_FLAG} "${COLOR_FLAG}[38;5;${i}m₪${COLOR_FLAG}[0m" | tr -d '\n'; done ; echo
 echo
+echo ${ECHO_FLAG} "${COLOR_FLAG}[1m"
 sleep 1
 if [ $# = 0 ]
 then
-  echo "Need path file."
-  echo "Correct use:"
-  echo "./Moumounator_printf.sh <../path_to_your_printf> (cspduixX%) (012)"
+  echo ${ECHO_FLAG} "Need path file."
+  echo ${ECHO_FLAG} "Correct use:"
+  echo ${ECHO_FLAG} "./Moumounator_printf.sh <../path_to_your_printf> (cspduixX%) (012)"
   echo
   exit
 fi
+touch output_printf.txt
+touch output_user.txt
 cd $1 2> /dev/null
 if [ $? = 1 ]
 then
-  echo "Incorrect path file"
-  echo "Correct use:"
-  echo "./Moumounator_printf.sh <../path_to_your_printf> (cspduixX%) (012)"
+  echo ${ECHO_FLAG} "Incorrect path file"
+  echo ${ECHO_FLAG} "Correct use:"
+  echo ${ECHO_FLAG} "./Moumounator_printf.sh <../path_to_your_printf> (cspduixX%) (012)"
   echo
   exit
 fi
 make >> /dev/null
 if [ $? = 2 ]
 then
-  echo "Make does not compile"
+  echo ${ECHO_FLAG} "Make does not compile"
   echo
   exit
 fi
@@ -51,28 +54,31 @@ mv *.a "$dir/" && cd "$dir/" && gcc main_all.c gnl/*.c -L. -lftprintf -fsanitize
 retvalue=$?
 if [ "$retvalue" = "1" ]
 then
-  echo "\n\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------"
-  echo "\t\t|ERROR COMPILE|"
-  echo "\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------${COLOR_FLAG}[0m"
-  echo "Trying new compile command"
+  echo ${ECHO_FLAG} "\n\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------"
+  echo ${ECHO_FLAG} "\t\t|ERROR COMPILE|"
+  echo ${ECHO_FLAG} "\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------${COLOR_FLAG}[0m"
+  echo ${ECHO_FLAG} "${COLOR_FLAG}[1m"
+  echo ${ECHO_FLAG} "Trying new compile command"
   echo
-  echo "Removing -fsanitize=adress"
-  echo "gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3"
+  echo ${ECHO_FLAG} "Removing -fsanitize=adress"
+  echo ${ECHO_FLAG} "gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3"
   gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
 fi
 if [ $? = 1 ]
 then
-  echo -e "\n\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------"
-  echo -e "\t\t|ERROR COMPILE|"
-  echo -e "\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------${COLOR_FLAG}[0m"
+  echo ${ECHO_FLAG} "\n\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------"
+  echo ${ECHO_FLAG} "\t\t|ERROR COMPILE|"
+  echo ${ECHO_FLAG} "\t\t${COLOR_FLAG}[1m${COLOR_FLAG}[31m---------------${COLOR_FLAG}[0m"
+  echo ${ECHO_FLAG} "${COLOR_FLAG}[1m"
   echo
-  echo "Did you do anything wrong?"
-  echo "Refer to README:"
-  echo -e "${COLOR_FLAG}[1m"
+  echo ${ECHO_FLAG} "Did you do anything wrong?"
+  echo ${ECHO_FLAG} "Refer to README:"
+  echo ${ECHO_FLAG} "${COLOR_FLAG}[1m"
   cat README
 fi
-echo "${COLOR_FLAG}[38;5;220m"
+echo ${ECHO_FLAG} "${COLOR_FLAG}[38;5;220m"
 cat cat/error.txt
 echo
-echo "${COLOR_FLAG}[38;5;15m"
-echo "         Thanks for using Moumounator (Meow)"
+echo ${ECHO_FLAG} "${COLOR_FLAG}[0;1m"
+echo ${ECHO_FLAG} "         Thanks for using Moumounator (Meow)"
+rm -rf *.a a.out output_printf.txt output_user.txt

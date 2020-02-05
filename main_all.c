@@ -6,11 +6,11 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/05 02:54:22 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/05 03:01:31 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "your_printf/srcs/ft_printf.h"
+#include "../test1234printf/srcs/ft_printf.h"
 #include "gnl/get_next_line.h"
 #include <stdio.h>
 #include <sys/types.h>
