@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/03 05:42:26 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/05 02:54:22 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 		printf("\033[0;32m");
 		printf("OK  ");
 		printf("\033[0m");
-		if (toggleok == 1)
+		if (toggleok == 2)
 			printf("\n|\tft_printf: {%s} returned %d\n|\t   printf: {%s} returned %d\n", line_user, ret_ft - 3, line_printf, ret_pf - 3);
 		(*test)[0] = (*test)[0] + 1;
 	}
@@ -112,7 +112,7 @@ int		ft_checkarg(char *str)
 		return (0);
 	while (*str)
 	{
-		if (main_strchr("scduixXp", *str))
+		if (main_strchr("scduixXp%", *str))
 			return (0);
 		str++;
 	}
@@ -202,41 +202,103 @@ int main(int ac, char **av)
 	int		i_type = 0;
 	int		choosedtype;
 	int		i_av = 0;
+	int		i_detect = 0;
 
-	choosedtype = 0;
-	printf(BOLDWHITE);
-	if (ac > 1)
+	display_toggle = malloc(sizeof(display_toggle) * 2);
+	display_toggle[1] = '\0';
+	printf(BWHT);
+	if (ac == 1)
+		display_toggle[0] = '0';
+	else if (ac > 3)
 	{
-		if (!av[1] || !av[1][0] || ft_checkarg(av[1]))
+		printf("Error arg. Use only following types:\n(csduixXp%%)\t\t(Multiple choices)\n");
+		printf("or only following flags:\n(012)\t\t\t(Only one)\n");
+		printf("\nWorking Exemples:\n");
+		printf("./Moumounator_printf.sh <path>\n");
+		printf("./Moumounator_printf.sh <path> X\n");
+		printf("./Moumounator_printf.sh <path> c 1\n");
+		printf("./Moumounator_printf.sh <path> 0\n");
+		printf("./Moumounator_printf.sh <path> 2 cdui\n\n");
+		return (0);
+	}
+	else if (ac == 2)
+	{
+		if (ft_checkarg(av[1]))
 		{
-			if (!main_strchr("012", av[1][0]))
+			if (!main_strchr("012", av[1][0]) || av[1][1] != 0)
 			{
-				printf("Error arg. Use only following types:\ncsduixXp\n");
+				printf("Error arg. Use only following types:\n(csduixXp%%)\t\t(Multiple choices)\n");
+				printf("or only following flags:\n(012)\t\t\t(Only one)\n");
+				printf("\nWorking Exemples:\n");
+				printf("./Moumounator_printf.sh <path>\n");
+				printf("./Moumounator_printf.sh <path> X\n");
+				printf("./Moumounator_printf.sh <path> c 1\n");
+				printf("./Moumounator_printf.sh <path> 0\n");
+				printf("./Moumounator_printf.sh <path> 2 cdui\n\n");
 				return (0);
 			}
-			else if (ac == 2)
-				display_toggle[0] = av[1][0];
+			display_toggle[0] = av[1][0];
 		}
 		else
 		{
-			if (ac == 2)
-				display_toggle = "0";
-			else if (ac == 3)
-				display_toggle[0] = av[2][0];
-			choosedtype = 1;
+			i_detect = 1;
+			display_toggle[0] = '0';
 		}
 	}
-	else
-		display_toggle = "0";
-	while ((choosedtype == 0 && type[i_type]) || (choosedtype == 1 && av[1][i_av]))
+	else if (ac == 3)
 	{
-		if (choosedtype == 1)
+		if (ft_checkarg(av[1]))
+		{
+			if (!main_strchr("012", av[1][0]) || av[1][1] != 0)
+			{
+				printf("Error arg. Use only following types:\n(csduixXp%%)\t\t(Multiple choices)\n");
+				printf("or only following flags:\n(012)\t\t\t(Only one)\n");
+				printf("\nExemple:\n");
+				printf("./Moumounator_printf.sh <path>\n");
+				printf("./Moumounator_printf.sh <path> X\n");
+				printf("./Moumounator_printf.sh <path> c 1\n");
+				printf("./Moumounator_printf.sh <path> 0\n");
+				printf("./Moumounator_printf.sh <path> 2 cdui\n\n");
+				return (0);
+			}
+			display_toggle[0] = av[1][0];
+		}
+		else if (!ft_checkarg(av[1]))
+		{
+			i_detect = 1;
+			display_toggle[0] = '0';
+		}
+		if (ft_checkarg(av[2]))
+		{
+			if (!main_strchr("012", av[2][0]) || av[2][1] != 0)
+			{
+				printf("Error arg. Use only following types:\n(csduixXp%%)\t\t(Multiple choices)\n");
+				printf("or only following flags:\n(012)\t\t\t(Only one)\n");
+				printf("\nExemple:\n");
+				printf("./Moumounator_printf.sh <path>\n");
+				printf("./Moumounator_printf.sh <path> X\n");
+				printf("./Moumounator_printf.sh <path> c 1\n");
+				printf("./Moumounator_printf.sh <path> 0\n");
+				printf("./Moumounator_printf.sh <path> 2 cdui\n\n");
+				return (0);
+			}
+			display_toggle[0] = av[2][0];
+		}
+		else if (!ft_checkarg(av[2]))
+		{
+			i_detect = 2;
+			display_toggle[0] = '0';
+		}
+	}
+	while ((i_detect == 0 && type[i_type]) || (i_detect >= 1 && av[i_detect][i_av]))
+	{
+		if (i_detect >= 1)
 		{
 			i_type = 0;
-			while (type[i_type] && type[i_type][0] != av[1][i_av])
+			while (type[i_type] && type[i_type][0] != av[i_detect][i_av])
 				i_type++;
 		}
-		display = ft_strjoin("\nConversion ", type[i_type]);
+		display = ft_strjoin("Conversion ", type[i_type]);
 		ok = 1;
 		dup2(fd_stdout, 1);printf("%.*s:", (int)strlen(display) - 2, display);dup2(fd_user, 1);
 		i_string = -1;
@@ -245,6 +307,10 @@ int main(int ac, char **av)
 			i_arg = -1;
 			while (arg[++i_arg])
 			{
+				while ((arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'c') || (arg[i_arg] && main_strchr(arg[i_arg], '0') && type[i_type][0] == 'p') || (arg[i_arg] && main_strchr(arg[i_arg], '.') && type[i_type][0] == 'p'))
+					i_arg++;
+				if (!arg[i_arg])
+					break;
 				full_arg = ft_strjoin(arg[i_arg], type[i_type]);
 				if (ft_testarg(full_arg) == -1)
 				{
@@ -253,8 +319,16 @@ int main(int ac, char **av)
 					dup2(fd_user, 1);
 					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 					system(": > output_printf.txt");
-					ret_pf = dprintf(fd_printf, full_arg, !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
-					ret_ft = ft_printf(full_arg, !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+					if (!main_strchr("dcuixX", type[i_type][0]))
+					{
+						ret_pf = dprintf(fd_printf, full_arg, strings[i_string]);
+						ret_ft = ft_printf(full_arg, strings[i_string]);
+					}
+					else
+					{
+						ret_pf = dprintf(fd_printf, full_arg, ints[i_string]);
+						ret_ft = ft_printf(full_arg, ints[i_string]);
+					}
 					test[1]++;
 					close(fd_user);
 					fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
@@ -265,8 +339,8 @@ int main(int ac, char **av)
 						ok = 0;
 						dup2(fd_stdout, 1);
 						!main_strchr("dcuixX", type[i_type][0]) ?
-						printf("-->\t%.*s, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
-						printf("-->\t%.*s, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
+						printf("-->\t\"%.*s\", %s\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
+						printf("-->\t\"%.*s\", %d\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
 						;
 						dup2(fd_user, 1);
 					}
@@ -284,8 +358,16 @@ int main(int ac, char **av)
 						dup2(fd_user, 1);
 						fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						system(": > output_printf.txt");
-						ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
-						ret_ft = ft_printf(full_arg, arg_w[i_width], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+						if (!main_strchr("dcuixX", type[i_type][0]))
+						{
+							ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], strings[i_string]);
+							ret_ft = ft_printf(full_arg, arg_w[i_width], strings[i_string]);
+						}
+						else
+						{
+							ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], ints[i_string]);
+							ret_ft = ft_printf(full_arg, arg_w[i_width], ints[i_string]);
+						}
 						test[1]++;
 						close(fd_user);
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
@@ -296,8 +378,8 @@ int main(int ac, char **av)
 							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t%.*s, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
-							printf("-->\t%.*s, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
+							printf("-->\t\"%.*s\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
+							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -315,8 +397,16 @@ int main(int ac, char **av)
 						dup2(fd_user, 1);
 						fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						system(": > output_printf.txt");
-						ret_pf = dprintf(fd_printf, full_arg, arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
-						ret_ft = ft_printf(full_arg, arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+						if (!main_strchr("dcuixX", type[i_type][0]))
+						{
+							ret_pf = dprintf(fd_printf, full_arg, arg_a[i_accu], strings[i_string]);
+							ret_ft = ft_printf(full_arg, arg_a[i_accu], strings[i_string]);
+						}
+						else
+						{
+							ret_pf = dprintf(fd_printf, full_arg, arg_a[i_accu], ints[i_string]);
+							ret_ft = ft_printf(full_arg, arg_a[i_accu], ints[i_string]);
+						}
 						test[1]++;
 						close(fd_user);
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
@@ -327,8 +417,8 @@ int main(int ac, char **av)
 							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
-							printf("-->\t%.*s, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
-							printf("-->\t%.*s, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
+							printf("-->\t\"%.*s\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
+							printf("-->\t\"%.*s\", %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], ints[i_string]);
 							dup2(fd_user, 1);
 						}
 						close(fd_user);
@@ -349,8 +439,16 @@ int main(int ac, char **av)
 							dup2(fd_user, 1);
 							fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 							system(": > output_printf.txt");
-							ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
-							ret_ft = ft_printf(full_arg, arg_w[i_width], arg_a[i_accu], !main_strchr("dcuixX", type[i_type][0]) ? strings[i_string] : ints[i_string]);
+							if (!main_strchr("dcuixX", type[i_type][0]))
+							{
+								ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]);
+								ret_ft = ft_printf(full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]);
+							}
+							else
+							{
+								ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
+								ret_ft = ft_printf(full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
+							}
 							test[1]++;
 							close(fd_user);
 							fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
@@ -361,8 +459,8 @@ int main(int ac, char **av)
 								ok = 0;
 								dup2(fd_stdout, 1);
 								!main_strchr("dcuixX", type[i_type][0]) ?
-								printf("-->\t%.*s, %d, %d, |%s|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
-								printf("-->\t%.*s, %d, %d, |%d|\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
+								printf("-->\t\"%.*s\", %d, %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
+								printf("-->\t\"%.*s\", %d, %d, %d\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
 								dup2(fd_user, 1);
 							}
 							close(fd_user);
@@ -377,13 +475,13 @@ int main(int ac, char **av)
 		if (test[0] == test[1])
 		{
 			dup2(fd_stdout, 1);
-			printf( BOLDGREEN "\t%d/%d test passed" BOLDWHITE, test[0], test[1]);
+			printf( BGRN "\t%d/%d\t  test passed\n" BWHT, test[0], test[1]);
 			dup2(fd_user, 1);
 		}
 		else
 		{
 			dup2(fd_stdout, 1);
-			printf( BOLDRED "\t%d/%d test passed" BOLDWHITE, test[0], test[1]);
+			printf( BRED "\t%d/%d\t  test passed\n" BWHT, test[0], test[1]);
 			dup2(fd_user, 1);
 		}
 		test[2] += test[0];
@@ -394,13 +492,13 @@ int main(int ac, char **av)
 		i_av++;
 	}
 	dup2(fd_stdout, 1);
-	printf("\n\nFinal score:");
+	printf("\nFinal score:");
 	if (test[2] == test[3])
 	{
-		printf( BOLDGREEN "\t%d/%d test passed" BOLDWHITE, test[2], test[3]);
+		printf( BGRN "\t%d/%d test passed" BWHT, test[2], test[3]);
 		printf("\nSuccess to all test doesn't mean your printf is good\n");
 	}
 	else
-		printf( BOLDRED "\t%d/%d test passed" BOLDWHITE, test[2], test[3]);
+		printf( BRED "\t%d/%d test passed" BWHT, test[2], test[3]);
 	dup2(fd_user, 1);
 }
