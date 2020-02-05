@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/05 09:29:51 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/05 10:47:20 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,6 @@ int main(int ac, char **av)
 	char	*display;
 	char	*display_toggle;
 	int		i_type = 0;
-	int		choosedtype;
 	int		i_av = 0;
 	int		i_detect = 0;
 

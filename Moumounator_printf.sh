@@ -50,7 +50,7 @@ then
   exit
 fi
 
-mv *.a "$dir/" && cd "$dir/" && gcc main_all.c gnl/*.c -L. -lftprintf -fsanitize=address && ./a.out $2 $3
+mv *.a "$dir/" && cd "$dir/" && gcc -Wall -Wextra -Werror main_all.c gnl/*.c -L. -lftprintf -fsanitize=address && ./a.out $2 $3
 retvalue=$?
 if [ "$retvalue" = "1" ]
 then
@@ -62,7 +62,7 @@ then
   echo
   echo ${ECHO_FLAG} "Removing -fsanitize=adress"
   echo ${ECHO_FLAG} "gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3"
-  gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
+  gcc -Wall -Wextra -Werror main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
 fi
 if [ $? = 1 ]
 then

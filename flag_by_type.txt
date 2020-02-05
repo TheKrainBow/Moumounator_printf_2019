@@ -1,7 +1,7 @@
 This .txt show which flags are used by which type in printf. This tester only test the one's checked.
 L = ll
 H = hh
-. = accuracity
+. = precision
 
    |.|0|-|#| +|HhL|l|
 c  | | |✓| |  |   |✓|
