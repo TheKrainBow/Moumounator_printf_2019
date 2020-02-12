@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/05 10:47:20 by magostin         ###   ########.fr       */
+/*   Updated: 2020/02/12 03:11:12 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,6 @@ int main(int ac, char **av)
 	int		arg_a[3] = {-6, 0, 6};
 
 	char	*full_arg;
-	char	*display;
 	char	*display_toggle;
 	int		i_type = 0;
 	int		i_av = 0;
@@ -232,6 +231,8 @@ int main(int ac, char **av)
 	display_toggle = malloc(sizeof(display_toggle) * 2);
 	display_toggle[1] = '\0';
 	printf(BWHT);
+	if (ALLTEST)
+		printf("ALLTEST set to 1:\nTesting many undefined behavior\n\n");
 	if (ac == 1)
 		display_toggle[0] = '0';
 	else if (ac > 3)
@@ -323,9 +324,10 @@ int main(int ac, char **av)
 			while (type[i_type] && type[i_type][0] != av[i_detect][i_av])
 				i_type++;
 		}
-		display = ft_strjoin("Conversion ", type[i_type]);
 		ok = 1;
-		dup2(fd_stdout, 1);printf("%.*s:", (int)strlen(display) - 2, display);dup2(fd_user, 1);
+		dup2(fd_stdout, 1);
+		printf("Conversion %c:", type[i_type][0]);
+		dup2(fd_user, 1);
 		i_string = -1;
 		while (++i_string != 3)
 		{

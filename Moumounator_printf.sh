@@ -50,7 +50,21 @@ then
   exit
 fi
 
-mv *.a "$dir/" && cd "$dir/" && gcc -Wall -Wextra -Werror main_all.c gnl/*.c -L. -lftprintf -fsanitize=address && ./a.out $2 $3
+mv *.a "$dir/" && cd "$dir/"
+if [ "$2" = "-bonus" ]
+then
+  COMPIL=bonus
+  shift
+else
+  COMPIL=all
+fi
+
+if [ "$2" = "-new" ]
+then
+  : > save.bonus
+fi
+
+gcc -g -Wall -Wextra -Werror main_${COMPIL}.c gnl/*.c -L. -lftprintf -fsanitize=address && ./a.out $2 $3
 retvalue=$?
 if [ "$retvalue" = "1" ]
 then
@@ -62,7 +76,7 @@ then
   echo
   echo ${ECHO_FLAG} "Removing -fsanitize=adress"
   echo ${ECHO_FLAG} "gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3"
-  gcc -Wall -Wextra -Werror main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
+  gcc -Wall -Wextra -Werror main_${COMPIL}.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
 fi
 if [ $? = 1 ]
 then
@@ -81,4 +95,4 @@ cat cat/error.txt
 echo
 echo ${ECHO_FLAG} "${COLOR_FLAG}[0;1m"
 echo ${ECHO_FLAG} "         Thanks for using Moumounator (Meow)"
-rm -rf *.a a.out output_printf.txt output_user.txt
+rm -rf *.a a.out output_printf.txt output_user.txt a.out.*
