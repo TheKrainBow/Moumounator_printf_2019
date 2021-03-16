@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/16 15:47:46 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/16 15:49:38 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ int main(int ac, char **av)
 	display_toggle[1] = '\0';
 	printf(BWHT);
 	if (ALLTEST)
-		printf("\033[0;30m#define ALLTEST 1\033[0m\nALLTEST set to 1:\nTesting many undefined behavior\n\n");
+		printf("\033[0;35m#define \033[0;34mALLTEST \033[0;32m1\033[0m\nALLTEST set to 1:\nTesting many undefined behavior\n\n");
 	if (ac == 1)
 		display_toggle[0] = '0';
 	else if (ac > 3)
