@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/16 15:29:08 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/16 15:42:03 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	(void)ret_pf;
 	if (!(ft_comparelines(line_user, line_printf) && ret_pf == ret_ft))
 	{
-		printf("\033[0;31m");
-		printf("\nDIFF!\n");
-		printf("\033[0m");
+		printf("\033[0;31m\nDIFF!\033[0m\n");
 		printf("|\tft_printf: {%s} returned %d\n|\t   printf: {%s} returned %d\n", line_user, ret_ft - 3, line_printf, ret_pf - 3);
 		ret_val = 1;
 	}
@@ -231,7 +229,7 @@ int main(int ac, char **av)
 	display_toggle[1] = '\0';
 	printf(BWHT);
 	if (ALLTEST)
-		printf("ALLTEST set to 1:\nTesting many undefined behavior\n\n");
+		printf("\033[0;31m#define ALLTEST 1\nALLTEST set to 1:\nTesting many undefined behavior\n\n");
 	if (ac == 1)
 		display_toggle[0] = '0';
 	else if (ac > 3)
