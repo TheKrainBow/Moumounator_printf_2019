@@ -64,7 +64,7 @@ then
   : > save.bonus
 fi
 
-gcc -g -Wall -Wextra -Werror main_${COMPIL}.c gnl/*.c -L. -lftprintf -fsanitize=address && ./a.out $2 $3
+gcc -I$1/srcs/ -g -Wall -Wextra -Werror main_${COMPIL}.c gnl/*.c -L. -lftprintf -fsanitize=address && ./a.out $2 $3
 retvalue=$?
 if [ "$retvalue" = "1" ]
 then

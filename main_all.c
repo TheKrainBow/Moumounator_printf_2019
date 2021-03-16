@@ -6,13 +6,13 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/12 03:11:12 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/16 15:29:08 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define ALLTEST 1
 
-#include "../test1234printf/srcs/ft_printf.h"
+#include "ft_printf.h"
 #include "gnl/get_next_line.h"
 #include <stdio.h>
 #include <sys/types.h>
@@ -149,7 +149,6 @@ int main(int ac, char **av)
 {
 	int		ret_pf = 0;
 	int		ret_ft = 0;
-	int		ok;
 	int		test[4] = {0, 0, 0, 0};
 	int		i_arg;
 	int		i_width;
@@ -324,7 +323,6 @@ int main(int ac, char **av)
 			while (type[i_type] && type[i_type][0] != av[i_detect][i_av])
 				i_type++;
 		}
-		ok = 1;
 		dup2(fd_stdout, 1);
 		printf("Conversion %c:", type[i_type][0]);
 		dup2(fd_user, 1);
@@ -363,7 +361,6 @@ int main(int ac, char **av)
 					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 					if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 					{
-						ok = 0;
 						dup2(fd_stdout, 1);
 						!main_strchr("dcuixX", type[i_type][0]) ?
 						printf("-->\t\"%.*s\\n\", %s\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
@@ -402,7 +399,6 @@ int main(int ac, char **av)
 						fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 						{
-							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
 							printf("-->\t\"%.*s\\n\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
@@ -441,7 +437,6 @@ int main(int ac, char **av)
 						fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 						{
-							ok = 0;
 							dup2(fd_stdout, 1);
 							!main_strchr("dcuixX", type[i_type][0]) ?
 							printf("-->\t\"%.*s\\n\", %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_a[i_accu], strings[i_string]):
@@ -483,7 +478,6 @@ int main(int ac, char **av)
 							fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 							if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 							{
-								ok = 0;
 								dup2(fd_stdout, 1);
 								!main_strchr("dcuixX", type[i_type][0]) ?
 								printf("-->\t\"%.*s\\n\", %d, %d, %s\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], arg_a[i_accu], strings[i_string]):
