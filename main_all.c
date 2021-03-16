@@ -6,11 +6,11 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/16 15:49:38 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/16 16:06:00 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define ALLTEST 1
+#define ALLTEST 0
 
 #include "ft_printf.h"
 #include "gnl/get_next_line.h"
