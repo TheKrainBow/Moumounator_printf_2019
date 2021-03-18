@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:15:41 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:16:55 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	int			fd_printf;
 	int			ret_ft;
 	int			ret_pf;
+	int			ret_val;
 	char		*full_arg;
 
 	printf("Multi-conv: ");
@@ -59,8 +60,11 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	dup2(fd_stdout, 1);
 	ft_close_user(&fd_user, &fd_printf);
 	ft_open_user(&fd_user, &fd_printf, 0);
-	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
+	if (ret_val = ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
+	{
+		printf("%d %p\n", ret_val, main_strchr("12", display_toggle));
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
+	}
 }
 
 static char	*main_strchr(const char *s, int c)
@@ -144,7 +148,6 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	(*test)[1] = (*test)[1] + 1;
 	free(line_printf);
 	free(line_user);
-	printf("%d\n", ret_val);
 	return (ret_val);
 }
 
