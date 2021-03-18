@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:13:42 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:13:50 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int main(int ac, char **av)
 	else
 		printf("\033[0;35m#define \033[0;34mALLTEST \033[0;32m0\033[1;37m\n\nALLTEST set to 0:\nTesting only defined behavior\n\n");
 	
-	else if (ac > 3)
+	if (ac > 3)
 	{
 		printf("Error arg. Use only following types:\n(csduixXp%%)\t\t(Multiple choices)\n");
 		printf("or only following flags:\n(012)\t\t\t(Only one)\n");
