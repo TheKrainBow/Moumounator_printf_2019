@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:36:18 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:39:10 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void		ft_multitest(int *test[4], int fd_stdout, int display_toggle)
 
 	(void)test;
 	(void)fd_stdout;
+	printf("Multy-Conversions: ");
 	ft_dup2_user(&fd_user, &fd_printf);
 	full_arg = "%*d %*s %*x %*X %*i %*u\n";
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
