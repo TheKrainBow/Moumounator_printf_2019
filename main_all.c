@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:39:10 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:40:15 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+
+static char	*main_strchr(const char *s, int c);
+int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int ret_ft, int toggleok, int (*test)[4]);
 
 void		ft_dup2_user(int *fd_user, int *fd_printf)
 {
