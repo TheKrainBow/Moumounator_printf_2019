@@ -76,7 +76,7 @@ then
   echo
   echo ${ECHO_FLAG} "Removing -fsanitize=adress"
   echo ${ECHO_FLAG} "gcc main_all.c gnl/*.c -L. -lftprintf && ./a.out $2 $3"
-  gcc -Wall -Wextra -Werror main_${COMPIL}.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
+  gcc -I$1/srcs/ -Wall -Wextra -Werror main_${COMPIL}.c gnl/*.c -L. -lftprintf && ./a.out $2 $3
 fi
 if [ $? = 1 ]
 then
