@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:50:44 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:52:45 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@
 static char	*main_strchr(const char *s, int c);
 int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int ret_ft, int toggleok, int (*test)[4]);
 
-void		ft_dup2_user(int *fd_user, int *fd_printf)
+void		ft_open_user(int *fd_user, int *fd_printf)
 {
 	*fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	system(": > output_user.txt");
 	*fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	system(": > output_printf.txt");
-	dup2(*fd_user, 1);
 }
 
 void		ft_close_user(int *fd_user, int *fd_printf, int fd_stdout)
@@ -49,13 +48,15 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	int			ret_pf;
 	char		*full_arg;
 
-	printf("Multi-conv: \n");
-	ft_dup2_user(&fd_user, &fd_printf);
+	printf("Multi-conv: ");
+	ft_open_user(&fd_user, &fd_printf);
+	dup2(fd_user, 1);
 	full_arg = "%*d %*s %*x %*X %*i %*u\n";
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
 	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
 	ft_close_user(&fd_user, &fd_printf, fd_stdout);
-	printf("Multi-conv: \n");
+	ft_open_user(&fd_user, &fd_printf);
+	dup2(fd_stdout, 1);
 	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10000, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
 }
