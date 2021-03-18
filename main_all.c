@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:58:32 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:58:50 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	ft_open_user(&fd_user, &fd_printf, 1);
 	dup2(fd_user, 1);
 	full_arg = "%*d %*s %*x %*X %*i %*u\n";
-	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
-	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
+	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10, -55, 1, -60);
+	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10, -55, 1, -60);
 	ft_close_user(&fd_user, &fd_printf);
 	ft_open_user(&fd_user, &fd_printf, 0);
 	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
