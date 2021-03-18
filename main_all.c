@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:00:49 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:02:18 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	ft_close_user(&fd_user, &fd_printf);
 	ft_open_user(&fd_user, &fd_printf, 0);
 	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
-	{
-		dup2(fd_stdout, 1);
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
-	}
 }
 
 static char	*main_strchr(const char *s, int c)
@@ -143,7 +140,6 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	}
 	else
 		(*test)[0] = (*test)[0] + 1;
-	dup2(fd_user, 1);
 	free(line_printf);
 	free(line_user);
 	return (ret_val);
@@ -405,7 +401,6 @@ int main(int ac, char **av)
 					fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 					if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle[0] - '0', &test) || main_strchr("12", display_toggle[0]))
 					{
-						dup2(fd_stdout, 1);
 						!main_strchr("dcuixX", type[i_type][0]) ?
 						printf("-->\t\"%.*s\\n\", %s\n", (int)ft_strlen(full_arg) - 1, full_arg, strings[i_string]):
 						printf("-->\t\"%.*s\\n\", %d\n", (int)ft_strlen(full_arg) - 1, full_arg, ints[i_string])
