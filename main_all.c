@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:07:44 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:11:27 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,6 +367,7 @@ int main(int ac, char **av)
 				i_type++;
 		}
 		dup2(fd_stdout, 1);
+		printf(BWHT);
 		printf("Conversion %c:", type[i_type][0]);
 		dup2(fd_user, 1);
 		i_string = -1;
