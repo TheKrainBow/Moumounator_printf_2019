@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:17:14 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:17:35 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	ft_open_user(&fd_user, &fd_printf, 0);
 	if ((ret_val = ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test)) || main_strchr("12", display_toggle))
 	{
-		printf("%d %p\n", ret_val, main_strchr("12", display_toggle));
+		printf("%d %s\n", ret_val, main_strchr("12", display_toggle));
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
 	}
 }
