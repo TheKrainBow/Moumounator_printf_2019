@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:26:36 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:26:51 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -572,7 +572,6 @@ int main(int ac, char **av)
 	}
 	dup2(fd_stdout, 1);
 	ft_multitest(&test, fd_stdout, display_toggle[0] - '0');
-	dup2(fd_stdout, 1);
 	printf("\nFinal score:");
 	if (test[2] == test[3])
 	{
