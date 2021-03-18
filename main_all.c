@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:48:26 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:49:11 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void		ft_dup2_user(int *fd_user, int *fd_printf)
 {
 	*fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	system(": > output_user.txt");
-	dup2(*fd_user, 1);
 	*fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	system(": > output_printf.txt");
+	printf("%d %d\n", *fd_user, *fd_printf);
+	dup2(*fd_user, 1);
 }
 
 void		ft_close_user(int *fd_user, int *fd_printf, int fd_stdout)
@@ -122,7 +123,6 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	get_next_line(fd_printf, &line_printf);
 	(void)ret_ft;
 	(void)ret_pf;
-	printf("ui\n");
 	if (!(ft_comparelines(line_user, line_printf) && ret_pf == ret_ft))
 	{
 		printf("\033[0;31m\nDIFF!\033[0m\n");
