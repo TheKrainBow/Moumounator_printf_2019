@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:26:51 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:27:50 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 
 	printf("Multi-conv: ");
 	ft_open_user(&fd_user, &fd_printf, 1);
-	full_arg = "%*d %*s %*x %*X %*i %*u\n";
+	full_arg = "[%*d] [%*s] [%*x] [%*X] [%*i] [%*u]\n";
 	dup2(fd_user, 1);
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10, -55, 1, -60);
 	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10, -55, 1, -60);
@@ -64,7 +64,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
 	
 	ft_open_user(&fd_user, &fd_printf, 1);
-	full_arg = "%*.*d %*.*s %*.*x %*.*X %*.*i %*.*u\n";
+	full_arg = "[%*.*d] [%*.*s] [%*.*x] [%*.*X] [%*.*i] [%*.*u]\n";
 	dup2(fd_user, 1);
 	ret_ft = ft_printf(full_arg, 0, 0, 42, 0, 0, "42", 0, 0, 42, 0, 0, 42, 0, 0, 42, 0, 0, 42);
 	ret_pf = dprintf(fd_printf, full_arg, 0, 0, 42, 0, 0, "42", 0, 0, 42, 0, 0, 42, 0, 0, 42, 0, 0, 42);
