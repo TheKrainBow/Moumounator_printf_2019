@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:49:11 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:50:44 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void		ft_dup2_user(int *fd_user, int *fd_printf)
 	system(": > output_user.txt");
 	*fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	system(": > output_printf.txt");
-	printf("%d %d\n", *fd_user, *fd_printf);
 	dup2(*fd_user, 1);
 }
 
@@ -56,6 +55,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
 	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
 	ft_close_user(&fd_user, &fd_printf, fd_stdout);
+	printf("Multi-conv: \n");
 	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10000, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
 }
