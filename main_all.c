@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:21:29 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:24:20 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	ft_open_user(&fd_user, &fd_printf, 0);
 	if ((ret_val = ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test)) || main_strchr("12", display_toggle + '0'))
 		printf("-->\t\"%.*s\\n\", 0, 0, 42, 0, 0, \"42\", 0, 0, 42, 0, 0, 42, 0, 0, 42, 0, 0, 42\n", (int)ft_strlen(full_arg) - 1, full_arg);
+
+
+	dup2(fd_stdout, 1);
+	if ((*test)[0] == (*test)[1])
+		printf(BGRN);
+	else
+		printf(BRED);
+	printf("\t%d/%d\t  test passed\n" BWHT, (*test)[0], (*test)[1]);
+	dup2(fd_user, 1);
+	(*test)[2] += (*test)[0];
+	(*test)[3] += (*test)[1];
 }
 
 static char	*main_strchr(const char *s, int c)
