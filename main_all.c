@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:04:27 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:07:44 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	}
 	else
 		(*test)[0] = (*test)[0] + 1;
+	(*test)[1] = (*test)[1] + 1;
 	free(line_printf);
 	free(line_user);
 	return (ret_val);
@@ -396,7 +397,6 @@ int main(int ac, char **av)
 						ret_pf = dprintf(fd_printf, full_arg, ints[i_string]);
 						ret_ft = ft_printf(full_arg, ints[i_string]);
 					}
-					test[1]++;
 					close(fd_user);
 					fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 					close(fd_printf);
@@ -433,7 +433,6 @@ int main(int ac, char **av)
 							ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], ints[i_string]);
 							ret_ft = ft_printf(full_arg, arg_w[i_width], ints[i_string]);
 						}
-						test[1]++;
 						close(fd_user);
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						close(fd_printf);
@@ -471,7 +470,6 @@ int main(int ac, char **av)
 							ret_pf = dprintf(fd_printf, full_arg, arg_a[i_accu], ints[i_string]);
 							ret_ft = ft_printf(full_arg, arg_a[i_accu], ints[i_string]);
 						}
-						test[1]++;
 						close(fd_user);
 						fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 						close(fd_printf);
@@ -512,7 +510,6 @@ int main(int ac, char **av)
 								ret_pf = dprintf(fd_printf, full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
 								ret_ft = ft_printf(full_arg, arg_w[i_width], arg_a[i_accu], ints[i_string]);
 							}
-							test[1]++;
 							close(fd_user);
 							fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 							close(fd_printf);
