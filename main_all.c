@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:24:20 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:24:42 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	else
 		printf(BRED);
 	printf("\t%d/%d\t  test passed\n" BWHT, (*test)[0], (*test)[1]);
-	dup2(fd_user, 1);
 	(*test)[2] += (*test)[0];
 	(*test)[3] += (*test)[1];
 }
