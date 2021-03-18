@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:26:01 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:26:36 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -580,6 +580,6 @@ int main(int ac, char **av)
 		printf("\nSuccess to all test doesn't mean your printf is good\n");
 	}
 	else
-		printf( BRED "\t%d/%d test passed" BWHT, test[2], test[3]);
+		printf( BRED "\t%d/%d test passed\n" BWHT, test[2], test[3]);
 	dup2(fd_user, 1);
 }
