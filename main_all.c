@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:32:34 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:34:12 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -574,7 +574,7 @@ int main(int ac, char **av)
 	if (test[2] == test[3])
 	{
 		printf( BGRN "\t%d/%d test passed" BWHT, test[2], test[3]);
-		printf("\nSuccess to all test doesn't mean your printf is good\n");
+		printf("\nSuccess to all test doesn't mean your printf is good.\n(Check your leaks!)\n");
 	}
 	else
 		printf( BRED "\t%d/%d test passed\n" BWHT, test[2], test[3]);
