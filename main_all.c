@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:30:03 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:31:20 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	}
 	else if (toggleok != 0)
 	{
-		printf("\033[0;32m\nOK  \033[0m");
+		printf("\033[0;32mOK  \033[0m");
 		if (toggleok == 2)
 			printf("\n|\tft_printf: {%s} returned %d\n|\t   printf: {%s} returned %d\n", line_user, ret_ft - 3, line_printf, ret_pf - 3);
 		(*test)[0] = (*test)[0] + 1;
