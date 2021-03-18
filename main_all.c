@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/16 16:29:46 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:36:18 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,43 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+
+void		ft_dup2_user(int *fd_user, int *fd_printf)
+{
+	*fd_user = open("output_user.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	system(": > output_user.txt");
+	dup2(*fd_user, 1);
+	*fd_printf = open("output_printf.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	system(": > output_printf.txt");
+}
+
+void		ft_close_user(int *fd_user, int *fd_printf, int fd_stdout)
+{
+	close(*fd_user);
+	*fd_user = 0;
+	close(*fd_printf);
+	*fd_printf = 0;
+	dup2(fd_stdout, 1);
+}
+
+void		ft_multitest(int *test[4], int fd_stdout, int display_toggle)
+{
+	int			fd_user;
+	int			fd_printf;
+	int			ret_ft;
+	int			ret_pf;
+	char		*full_arg;
+
+	(void)test;
+	(void)fd_stdout;
+	ft_dup2_user(&fd_user, &fd_printf);
+	full_arg = "%*d %*s %*x %*X %*i %*u\n";
+	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
+	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
+	ft_close_user(&fd_user, &fd_printf, fd_stdout);
+	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
+		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10000, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg, arg_w[i_width], strings[i_string]):
+}
 
 static char	*main_strchr(const char *s, int c)
 {
@@ -514,6 +551,7 @@ int main(int ac, char **av)
 		i_av++;
 	}
 	dup2(fd_stdout, 1);
+	ft_multitest(&test[2], &test[3], fd_stdout, display_toggle[0] - '0');
 	printf("\nFinal score:");
 	if (test[2] == test[3])
 	{
