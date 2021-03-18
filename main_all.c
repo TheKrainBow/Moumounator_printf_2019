@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:46:50 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:47:27 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	int			ret_pf;
 	char		*full_arg;
 
-	printf("Multy-Conversions: ");
+	printf("Multy-Conversions: \n");
 	ft_dup2_user(&fd_user, &fd_printf);
 	full_arg = "%*d %*s %*x %*X %*i %*u\n";
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
@@ -553,7 +553,7 @@ int main(int ac, char **av)
 		i_av++;
 	}
 	dup2(fd_stdout, 1);
-//	ft_multitest(&test, fd_stdout, display_toggle[0] - '0');
+	ft_multitest(&test, fd_stdout, display_toggle[0] - '0');
 	printf("\nFinal score:");
 	if (test[2] == test[3])
 	{
