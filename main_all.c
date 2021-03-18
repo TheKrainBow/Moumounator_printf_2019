@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 12:47:27 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:48:26 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 	int			ret_pf;
 	char		*full_arg;
 
-	printf("Multy-Conversions: \n");
+	printf("Multi-conv: \n");
 	ft_dup2_user(&fd_user, &fd_printf);
 	full_arg = "%*d %*s %*x %*X %*i %*u\n";
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10000, -55, 1, -60);
@@ -122,6 +122,7 @@ int			ft_checkline(int fd_user, int fd_printf, int fd_stdout, int ret_pf, int re
 	get_next_line(fd_printf, &line_printf);
 	(void)ret_ft;
 	(void)ret_pf;
+	printf("ui\n");
 	if (!(ft_comparelines(line_user, line_printf) && ret_pf == ret_ft))
 	{
 		printf("\033[0;31m\nDIFF!\033[0m\n");
