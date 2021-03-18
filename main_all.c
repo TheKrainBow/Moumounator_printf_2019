@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 21:40:45 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/18 13:13:50 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/18 13:15:07 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ void		ft_multitest(int (*test)[4], int fd_stdout, int display_toggle)
 
 	printf("Multi-conv: ");
 	ft_open_user(&fd_user, &fd_printf, 1);
-	dup2(fd_user, 1);
 	full_arg = "%*d %*s %*x %*X %*i %*u\n";
+	dup2(fd_user, 1);
 	ret_ft = ft_printf(full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10, -55, 1, -60);
 	ret_pf = dprintf(fd_printf, full_arg, 1, 5000, 1, "hey", 10, 54700, 1, 300, 10, -55, 1, -60);
+	dup2(fd_stdout, 1);
 	ft_close_user(&fd_user, &fd_printf);
 	ft_open_user(&fd_user, &fd_printf, 0);
-	printf("%d %d %d %d\n", (*test)[0], (*test)[1], (*test)[2], (*test)[3]);
+	printf("%d\n", display_toggle);
 	if (ft_checkline(fd_user, fd_printf, fd_stdout, ret_pf, ret_ft, display_toggle, test) || main_strchr("12", display_toggle))
 		printf("-->\t\"%.*s\\n\", 1, 5000, 1, \"hey\", 10, 54700, 1, 300, 10, -55, 1, -60\n", (int)ft_strlen(full_arg) - 1, full_arg);
-	printf(" 2 %d %d %d %d\n", (*test)[0], (*test)[1], (*test)[2], (*test)[3]);
 }
 
 static char	*main_strchr(const char *s, int c)
