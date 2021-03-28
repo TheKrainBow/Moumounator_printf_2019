@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 15:51:29 by magostin          #+#    #+#             */
-/*   Updated: 2020/01/28 03:40:10 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/28 18:22:02 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_gnl_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strndup(const char *str, int n)
+char	*ft_gnl_strndup(const char *str, int n)
 {
 	int		size;
 	char	*dest;
@@ -81,7 +81,7 @@ char	*ft_strndup(const char *str, int n)
 	return (dest);
 }
 
-char	*ft_strdup(const char *str)
+char	*ft_gnl_strdup(const char *str)
 {
 	int		size;
 	char	*dest;

@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 16:43:56 by magostin          #+#    #+#             */
-/*   Updated: 2020/01/28 04:19:26 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/28 18:22:36 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char			*stock_line(t_nxtlne nxtlne[100], int lnbr)
 	buffer = ft_gnl_strchr(nxtlne[lnbr].line, '\n');
 	if (buffer)
 	{
-		if (!(dest = ft_strndup(nxtlne[lnbr].line, buffer - nxtlne[lnbr].line)))
+		if (!(dest = ft_gnl_strndup(nxtlne[lnbr].line, buffer - nxtlne[lnbr].line)))
 			return (NULL);
 		temp = nxtlne[lnbr].line;
 		if (!(nxtlne[lnbr].line = ft_strdup(buffer)))
@@ -53,7 +53,7 @@ char			*stock_line(t_nxtlne nxtlne[100], int lnbr)
 	}
 	else
 	{
-		if (!(dest = ft_strdup(nxtlne[lnbr].line)))
+		if (!(dest = ft_gnl_strdup(nxtlne[lnbr].line)))
 			return (NULL);
 		nxtlne[lnbr].line = NULL;
 		free(nxtlne[lnbr].line);

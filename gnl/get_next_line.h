@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 15:54:18 by magostin          #+#    #+#             */
-/*   Updated: 2020/02/05 01:31:50 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/28 18:22:05 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct		s_nxtlne
 char				*ft_strjoin(char const *s1, char const *s2);
 int					get_next_line(int fd, char **line);
 char				*ft_gnl_strchr(char *s, int c);
-char				*ft_strdup(const char *str);
-char				*ft_strndup(const char *s, int n);
+char				*ft_gnl_strdup(const char *str);
+char				*ft_gnl_strndup(const char *s, int n);
 char				*ft_strnew(size_t size);
 int					ft_gnl_strlen(const char *str);
 
