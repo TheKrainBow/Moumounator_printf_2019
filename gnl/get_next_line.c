@@ -6,7 +6,7 @@
 /*   By: magostin <magostin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 16:43:56 by magostin          #+#    #+#             */
-/*   Updated: 2021/03/28 18:22:36 by magostin         ###   ########.fr       */
+/*   Updated: 2021/03/28 18:24:44 by magostin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char			*stock_line(t_nxtlne nxtlne[100], int lnbr)
 		if (!(dest = ft_gnl_strndup(nxtlne[lnbr].line, buffer - nxtlne[lnbr].line)))
 			return (NULL);
 		temp = nxtlne[lnbr].line;
-		if (!(nxtlne[lnbr].line = ft_strdup(buffer)))
+		if (!(nxtlne[lnbr].line = ft_gnl_strdup(buffer)))
 			return (NULL);
 		free(temp);
 	}
